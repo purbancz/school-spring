@@ -22,8 +22,6 @@ public class School implements java.io.Serializable {
 	@JoinColumn(name="school_id")
 	private Set<SchoolClass> classes;
 	
-	
-	
 
 	public School() {
 		classes = new HashSet<SchoolClass>();

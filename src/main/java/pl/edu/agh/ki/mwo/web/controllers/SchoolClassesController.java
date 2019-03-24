@@ -8,13 +8,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import pl.edu.agh.ki.mwo.model.School;
 import pl.edu.agh.ki.mwo.model.SchoolClass;
 import pl.edu.agh.ki.mwo.persistence.DatabaseConnector;
 
 @Controller
 public class SchoolClassesController {
-
+	
+	
     @RequestMapping(value="/SchoolClasses")
     public String listSchoolClass(Model model, HttpSession session) {    	
     	if (session.getAttribute("userLogin") == null)
