@@ -1,7 +1,16 @@
 package pl.edu.agh.ki.mwo.model;
 import java.util.HashSet;
 import java.util.Set;
-import javax.persistence.*;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 @SuppressWarnings("serial")
 @Entity
@@ -24,6 +33,9 @@ public class SchoolClass implements java.io.Serializable {
 	@OneToMany(cascade=CascadeType.ALL)
 	@JoinColumn(name="class_id")
 	private Set<Student> students;
+	
+	
+	
 
 	public SchoolClass() {
 		students = new HashSet<Student>();

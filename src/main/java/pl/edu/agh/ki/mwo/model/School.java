@@ -21,6 +21,9 @@ public class School implements java.io.Serializable {
 	@OneToMany(cascade=CascadeType.ALL)
 	@JoinColumn(name="school_id")
 	private Set<SchoolClass> classes;
+	
+	
+	
 
 	public School() {
 		classes = new HashSet<SchoolClass>();
