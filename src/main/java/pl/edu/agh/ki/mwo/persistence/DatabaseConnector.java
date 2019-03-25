@@ -47,6 +47,13 @@ public class DatabaseConnector {
 		transaction.commit();
 	}
 	
+	//changes here
+	public void changeSchool(School school) {
+		Transaction transaction = session.beginTransaction();
+		session.save(school);
+		transaction.commit();
+	}
+	
 	public void deleteSchool(String schoolId) {
 		String hql = "FROM School S WHERE S.id=" + schoolId;
 		Query query = session.createQuery(hql);
