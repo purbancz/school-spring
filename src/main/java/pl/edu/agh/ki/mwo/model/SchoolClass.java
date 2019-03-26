@@ -22,9 +22,21 @@ public class SchoolClass implements java.io.Serializable {
 	private String profile;
 	
 	@OneToMany(cascade=CascadeType.ALL)
-	@JoinColumn(name="class_id")
+	@JoinColumn(name = "class_id")
 	private Set<Student> students;
 	
+//	@OneToMany(cascade=CascadeType.ALL, mappedBy = "schlclass")
+//	private Set<Student> students;
+//	
+//	@ManyToOne
+//	private School school;
+//	
+//	public School getSchool() {
+//		return school;
+//	}
+//	public void setSchool(School school) {
+//		this.school = school;
+//	}
 
 	public SchoolClass() {
 		students = new HashSet<Student>();
@@ -72,6 +84,7 @@ public class SchoolClass implements java.io.Serializable {
 	public void setProfile(String profile) {
 		this.profile = profile;
 	}
+
 
 	public String toString() {
 		return "Class: " + profile + " (Started: " + getStartYear() + ", Current year: " + getCurrentYear() + ")";

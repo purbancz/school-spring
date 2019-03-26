@@ -14,6 +14,7 @@
 						<tr><td>klasa:</td><td><select class="form-control" name="studentSchoolClass" id="studentSchoolClass">
 											    <option value="-1">---</option>
 											    <option th:each="schoolClass: ${schoolClasses}" th:value="${schoolClass.id}" th:text="${schoolClass.profile} + ', ' + ${schoolClass.startYear}"></option>
+												<!--${schoolClass.school.name} + ', ' + -->
 											    </select></td></tr>
 					</table><br/><BR/>
 					<input type="submit" value="Utwórz"/>

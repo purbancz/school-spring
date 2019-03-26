@@ -41,6 +41,14 @@ public class DatabaseConnector {
 		return schools;
 	}
 	
+	public Iterable<School> getSchoolById(String schoolId) {
+		String hql = "FROM School S WHERE S.id=" + schoolId;
+		Query query = session.createQuery(hql);
+		List school = query.list();
+		
+		return school;
+	}
+	
 	public void addSchool(School school) {
 		Transaction transaction = session.beginTransaction();
 		session.save(school);
@@ -48,9 +56,14 @@ public class DatabaseConnector {
 	}
 	
 	//changes here
-	public void changeSchool(School school) {
+	public void changeSchool(String schoolId) {
+		String hql = "FROM School S WHERE S.id=" + schoolId;
+		Query query = session.createQuery(hql);
+		List<School> results = query.list();
 		Transaction transaction = session.beginTransaction();
-		session.save(school);
+		for (School s : results) {
+			session.save(s);
+		}
 		transaction.commit();
 	}
 	
@@ -99,9 +112,9 @@ public class DatabaseConnector {
 		transaction.commit();
 	}
 	
-	//ctrlv
 	
-	public Iterable<SchoolClass> getStudents() {
+	
+	public Iterable<Student> getStudents() {
 		String hql = "FROM Student";
 		Query query = session.createQuery(hql);
 		List students = query.list();

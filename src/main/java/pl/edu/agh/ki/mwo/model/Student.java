@@ -1,5 +1,10 @@
 package pl.edu.agh.ki.mwo.model;
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @SuppressWarnings("serial")
 @Entity
@@ -19,8 +24,26 @@ public class Student implements java.io.Serializable {
 	@Column
 	private String pesel;
 	
+	
+//	@ManyToOne
+//	@JoinColumn(name = "class_id")
+//	private SchoolClass schlclass;
+//	
+//	public SchoolClass getSchoolClass() {
+//		return schlclass;
+//	}
+//
+//	public void setSchoolClass(SchoolClass schoolClass) {
+//		this.schlclass = schoolClass;
+//	}
+
 	public long getId() {
 		return id;
+	}
+
+	@Override
+	public String toString() {
+		return name + surname + "(" + pesel + ")";
 	}
 
 	public void setId(long id) {
@@ -54,5 +77,6 @@ public class Student implements java.io.Serializable {
 	public void setPesel(String pesel) {
 		this.pesel = pesel;
 	}
+
 	
 }

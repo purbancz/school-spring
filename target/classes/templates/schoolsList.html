@@ -17,10 +17,11 @@
 				<td><span th:text="${school.name}" /></td>
 				<td><span th:text="${school.address}" /></td>
 		        <td>
-		            <form action="DeleteSchool" method="POST">
+		            <form action="/DeleteSchool" method="POST">
 		            	<input type="hidden" name="schoolId" th:value="${school.id}" />
 		                <button type="submit">X</button>
 		            </form>
+					<a th:href="@{'/ChangeSchool/' + ${school.id}}">edit</a>
 		        </td>
 			</tr>
 		
