@@ -28,15 +28,15 @@ public class SchoolClass implements java.io.Serializable {
 //	@OneToMany(cascade=CascadeType.ALL, mappedBy = "schlclass")
 //	private Set<Student> students;
 //	
-//	@ManyToOne
-//	private School school;
-//	
-//	public School getSchool() {
-//		return school;
-//	}
-//	public void setSchool(School school) {
-//		this.school = school;
-//	}
+	@ManyToOne
+	private School school;
+	
+	public School getSchool() {
+		return school;
+	}
+	public void setSchool(School school) {
+		this.school = school;
+	}
 
 	public SchoolClass() {
 		students = new HashSet<Student>();

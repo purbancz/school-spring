@@ -54,12 +54,12 @@ public class SchoolsController {
 	public String displayChangeSchoolForm(@PathVariable("id") String id, Model model, HttpSession session) {
 		if (session.getAttribute("userLogin") == null)
 			return "redirect:/Login";
-		model.addAttribute("editschool", DatabaseConnector.getInstance().getSchoolById(id));
+		model.addAttribute("editSchool", DatabaseConnector.getInstance().getSchoolObjById(id));
 		return "schoolChangeForm";
 	}
 
 	@RequestMapping(value = "/UpdateSchool", method = RequestMethod.POST)
-	public String updateSchool(@RequestParam(value = "schoolId", required = false) long schoolId,
+	public String updateSchool(@RequestParam(value = "schoolId", required = false) String schoolId,
 			@RequestParam(value = "schoolName", required = false) String name,
 			@RequestParam(value = "schoolAddress", required = false) String address, Model model, HttpSession session) {
 		if (session.getAttribute("userLogin") == null)

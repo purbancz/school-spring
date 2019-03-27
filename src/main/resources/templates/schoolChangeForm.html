@@ -6,14 +6,15 @@
     <div layout:fragment="content">
     <div th:include="menuFragment" ></div>
     	<br/><br/>
-	   			<form action="/UpdateSchool" method="POST">
+	   			<form action="/UpdateSchool" th:object="${editSchool}" method="POST">
 					<table>
-						<tr th:each="school: ${editschool}"><td>nazwa:</td><td><input type="text" th:value="${school.name}" id="schoolName" name="schoolName" /></td></tr>
-						<tr th:each="school: ${editschool}"><td>adres:</td><td><input type="text" th:value="${school.address}" id="schoolAddress" name="schoolAddress" /></td></tr>
-						<tr th:each="school: ${editschool}"><td>
-						<input type="hidden" name="schoolId" th:value="${school.id}" />
-						<input type="submit" value="Zapisz"/></td></tr>
-					</table><br/><BR/>
+						<tr><td>nazwa:</td><td><input type="text" th:value="*{name}" id="schoolName" name="schoolName" /></td></tr>
+						<tr><td>adres:</td><td><input type="text" th:value="*{address}" id="schoolAddress" name="schoolAddress" /></td></tr>
+					</table>
+						
+						<input type="hidden" name="schoolId" th:value="*{id}" />
+						<input type="submit" value="Zapisz"/>
+						<br/><BR/>
 					
 				</form>
     </div>

@@ -41,17 +41,16 @@ public class DatabaseConnector {
 		return schools;
 	}
 
-	public Iterable<School> getSchoolById(String schoolId) {
-		String hql = "FROM School S WHERE S.id=" + schoolId;
-		Query query = session.createQuery(hql);
-		List school = query.list();
+//	public Iterable<School> getSchoolById(String schoolId) {
+//		String hql = "FROM School S WHERE S.id=" + schoolId;
+//		Query query = session.createQuery(hql);
+//		List school = query.list();
+//
+//		return school;
+//	}
 
-		return school;
-	}
-
-	public School getSchoolObjById(long schoolId) {
-		School school = (School) session.get(School.class, schoolId);
-//		session.close();
+	public School getSchoolObjById(String schoolId) {
+		School school = (School) session.get(School.class, Long.parseLong(schoolId));
 		return school;
 	}
 
@@ -62,8 +61,7 @@ public class DatabaseConnector {
 		session.flush();
 	}
 
-	// changes here
-	public void changeSchool(long schoolId) {
+	public void changeSchool(String schoolId) {
 		String hql = "FROM School S WHERE S.id=" + schoolId;
 		Query query = session.createQuery(hql);
 		List<School> results = query.list();
@@ -84,6 +82,7 @@ public class DatabaseConnector {
 			session.delete(s);
 		}
 		transaction.commit();
+		session.flush();
 	}
 
 	public Iterable<SchoolClass> getSchoolClasses() {
@@ -94,6 +93,11 @@ public class DatabaseConnector {
 		return schoolClasses;
 	}
 
+	public SchoolClass getSchoolClassObjById(String classId) {
+		SchoolClass schoolClass = (SchoolClass) session.get(SchoolClass.class, Long.parseLong(classId));
+		return schoolClass;
+	}
+
 	public void addSchoolClass(SchoolClass schoolClass, String schoolId) {
 		String hql = "FROM School S WHERE S.id=" + schoolId;
 		Query query = session.createQuery(hql);
@@ -101,14 +105,36 @@ public class DatabaseConnector {
 		Transaction transaction = session.beginTransaction();
 		if (results.size() == 0) {
 			session.save(schoolClass);
-			session.flush();
 		} else {
 			School school = results.get(0);
 			school.addClass(schoolClass);
 			session.save(school);
-			session.flush();
 		}
 		transaction.commit();
+		session.flush();
+	}
+
+	public void updateSchoolClass(String classId, String oldSchoolId, String trueSchoolId) {
+		String hql = "FROM SchoolClass S WHERE S.id=" + classId;
+		Query query = session.createQuery(hql);
+		List<SchoolClass> results = query.list();
+		Transaction transaction = session.beginTransaction();
+		for (SchoolClass s : results) {
+			if (oldSchoolId.equals(trueSchoolId) || trueSchoolId.isEmpty()) {
+				session.update(s);
+			} else {
+				School trueSchool = getSchoolObjById(trueSchoolId);
+//				School oldSchool = getSchoolObjById(oldSchoolId);
+				trueSchool.addClass(s);
+//				oldSchool.removeClass(s);
+				session.update(trueSchool);
+//				session.update(oldSchool);
+			}
+		}
+		session.flush();
+		transaction.commit();
+		session.clear();
+		
 	}
 
 	public void deleteSchoolClass(String schoolClassId) {
@@ -120,6 +146,7 @@ public class DatabaseConnector {
 			session.delete(s);
 		}
 		transaction.commit();
+		session.flush();
 	}
 
 	public Iterable<Student> getStudents() {
@@ -137,29 +164,13 @@ public class DatabaseConnector {
 		Transaction transaction = session.beginTransaction();
 		if (results.size() == 0) {
 			session.save(student);
-			session.flush();
 		} else {
 			SchoolClass schoolClass = results.get(0);
 			schoolClass.addStudent(student);
 			session.save(schoolClass);
-			session.flush();
 		}
 		transaction.commit();
-	}
-
-	public void addSchoolClass2(SchoolClass schoolClass, String schoolId) {
-		String hql = "FROM School S WHERE S.id=" + schoolId;
-		Query query = session.createQuery(hql);
-		List<School> results = query.list();
-		Transaction transaction = session.beginTransaction();
-		if (results.size() == 0) {
-			session.save(schoolClass);
-		} else {
-			School school = results.get(0);
-			school.addClass(schoolClass);
-			session.save(school);
-		}
-		transaction.commit();
+		session.flush();
 	}
 
 	public void deleteStudent(String studentId) {
@@ -171,6 +182,8 @@ public class DatabaseConnector {
 			session.delete(s);
 		}
 		transaction.commit();
+		session.flush();
 	}
+
 
 }
