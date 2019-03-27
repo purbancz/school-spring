@@ -58,12 +58,19 @@ public class SchoolsController {
 		return "schoolChangeForm";
 	}
 
-	@RequestMapping(value = "/ModifySchool", method = RequestMethod.POST)
-	public String modifySchool(@RequestParam(value = "schoolId", required = false) String schoolId,
+	@RequestMapping(value = "/UpdateSchool", method = RequestMethod.POST)
+	public String updateSchool(@RequestParam(value = "schoolId", required = false) long schoolId,
 			@RequestParam(value = "schoolName", required = false) String name,
 			@RequestParam(value = "schoolAddress", required = false) String address, Model model, HttpSession session) {
 		if (session.getAttribute("userLogin") == null)
 			return "redirect:/Login";
+//		School school = DatabaseConnector.getInstance().getSchoolById(schoolId);
+//		School school = (School)session.getAttribute(School.class, new Long(schoolId));
+		
+		School school = DatabaseConnector.getInstance().getSchoolObjById(schoolId);
+		school.setName(name);
+		school.setAddress(address);
+		
 		DatabaseConnector.getInstance().changeSchool(schoolId);
 		model.addAttribute("schools", DatabaseConnector.getInstance().getSchools());
 		model.addAttribute("message", "Szkoła została zmodyfikowana");
