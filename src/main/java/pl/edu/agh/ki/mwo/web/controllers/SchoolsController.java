@@ -4,7 +4,6 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -50,11 +49,12 @@ public class SchoolsController {
 		return "schoolsList";
 	}
 
-	@RequestMapping(value = "/ChangeSchool/{id}")
-	public String displayChangeSchoolForm(@PathVariable("id") String id, Model model, HttpSession session) {
+	@RequestMapping(value = "/ChangeSchool")
+	public String displayChangeSchoolForm(@RequestParam(value="schoolId", required=false) String schoolId,
+			Model model, HttpSession session) {
 		if (session.getAttribute("userLogin") == null)
 			return "redirect:/Login";
-		model.addAttribute("editSchool", DatabaseConnector.getInstance().getSchoolObjById(id));
+		model.addAttribute("editSchool", DatabaseConnector.getInstance().getSchoolObjById(schoolId));
 		return "schoolChangeForm";
 	}
 

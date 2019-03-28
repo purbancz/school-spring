@@ -21,7 +21,10 @@
 		            	<input type="hidden" name="schoolId" th:value="${school.id}" />
 		                <button type="submit">X</button>
 		            </form>
-					<a th:href="@{'/ChangeSchool/' + ${school.id}}">zmień</a>
+					 <form action="/ChangeSchool" method="POST">
+		            	<input type="hidden" name="schoolId" th:value="${school.id}" />
+		                <button type="submit">Y</button>
+		            </form>
 		        </td>
 			</tr>
 		
