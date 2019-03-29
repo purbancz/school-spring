@@ -56,6 +56,39 @@ public class StudentsController {
     	return "studentsList";
     }
 	
+	@RequestMapping(value = "/ModifyStudent")
+	public String displayChangeStudentForm(@RequestParam(value="studentId", required=false) String studentId,
+			Model model, HttpSession session) {
+		if (session.getAttribute("userLogin") == null)
+			return "redirect:/Login";
+		model.addAttribute("editStudent", DatabaseConnector.getInstance().getStudentObjById(studentId));
+		model.addAttribute("schoolClasses", DatabaseConnector.getInstance().getSchoolClasses());
+		return "studentChangeForm";
+	}
+
+	@RequestMapping(value = "/UpdateStudent", method = RequestMethod.POST)
+	public String updateSchoolClass(@RequestParam(value = "studentId", required = false) String studentId,
+			@RequestParam(value = "oldClass", required = false) String oldClassId,
+			@RequestParam(value = "trueClass", required = false) String trueClassId,
+			@RequestParam(value="studentName", required=false) String studentName,
+			@RequestParam(value="studentSurname", required=false) String studentSurname,
+    		@RequestParam(value="studentPesel", required=false) String studentPesel,
+    		Model model, HttpSession session) {
+		if (session.getAttribute("userLogin") == null)
+			return "redirect:/Login";
+		
+		Student student = DatabaseConnector.getInstance().getStudentObjById(studentId);
+		student.setName(studentName);
+		student.setSurname(studentSurname);
+		student.setPesel(studentPesel);
+		
+		DatabaseConnector.getInstance().updateStudent(studentId, oldClassId, trueClassId);
+		model.addAttribute("students", DatabaseConnector.getInstance().getStudents());
+		model.addAttribute("message", "Dane zostały zmodyfikowane");
+
+		return "studentsList";
+	}
+	
 	@RequestMapping(value="/DeleteStudent", method=RequestMethod.POST)
     public String deleteStudent(@RequestParam(value="studentId", required=false) String studentId,
     		Model model, HttpSession session) {    	

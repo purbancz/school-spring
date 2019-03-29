@@ -1,0 +1,26 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout">
+<body>
+
+    <div layout:fragment="content">
+    <div th:include="menuFragment" ></div>
+    	<br/><br/>
+	   			<form action="UpdateStudent" th:object="${editStudent}" method="POST">
+					<input type="hidden" name="oldClass" th:value="*{schoolClass.id}" />
+					<input type="hidden" name="studentId" th:value="*{id}" />
+					<table>
+						<tr><td>Imię:</td><td><input type="text" th:value="*{name}" id="studentName" name="studentName" /></td></tr>
+						<tr><td>Nazwisko:</td><td><input type="text" th:value="*{surname}" id="studentSurname" name="studentSurname" /></td></tr>
+						<tr><td>Pesel:</td><td><input type="text" th:value="*{pesel}" id="studentSurname" name="studentPesel" /></td></tr>
+						<tr><td>klasa:</td><td><select class="form-control" name="trueClass" id="trueClass">
+											    <option value="-1" th:value="*{schoolClass.id}" th:text="*{schoolClass.profile} + ', ' + *{schoolClass.startYear}">---</option>
+											    <option th:each="schoolClass: ${schoolClasses}" th:value="${schoolClass.id}" th:text="${schoolClass.profile} + ', ' + ${schoolClass.startYear}"></option>
+											    </select></td></tr>
+					</table><br/><BR/>
+					<input type="submit" value="Zapisz"/>
+				</form>
+    </div>
+
+</body>
+</html>

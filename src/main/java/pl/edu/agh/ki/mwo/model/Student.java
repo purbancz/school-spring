@@ -4,6 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @SuppressWarnings("serial")
@@ -25,17 +27,17 @@ public class Student implements java.io.Serializable {
 	private String pesel;
 	
 	
-//	@ManyToOne
-//	@JoinColumn(name = "class_id")
-//	private SchoolClass schlclass;
-//	
-//	public SchoolClass getSchoolClass() {
-//		return schlclass;
-//	}
-//
-//	public void setSchoolClass(SchoolClass schoolClass) {
-//		this.schlclass = schoolClass;
-//	}
+	@ManyToOne
+	@JoinColumn(name = "class_id")
+	private SchoolClass schlclass;
+	
+	public SchoolClass getSchoolClass() {
+		return schlclass;
+	}
+
+	public void setSchoolClass(SchoolClass schoolClass) {
+		this.schlclass = schoolClass;
+	}
 
 	public long getId() {
 		return id;

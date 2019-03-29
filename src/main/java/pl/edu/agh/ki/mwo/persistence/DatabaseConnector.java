@@ -49,6 +49,14 @@ public class DatabaseConnector {
 //		return school;
 //	}
 
+//	public School getSchoolObjectById(String schoolId) {
+//		String hql = "FROM School S WHERE S.id=" + schoolId;
+//		Query query = session.createQuery(hql);
+//		School school = (School) query.uniqueResult();
+//
+//		return school;
+//	}
+
 	public School getSchoolObjById(String schoolId) {
 		School school = (School) session.get(School.class, Long.parseLong(schoolId));
 		return school;
@@ -58,7 +66,7 @@ public class DatabaseConnector {
 		Transaction transaction = session.beginTransaction();
 		session.save(school);
 		transaction.commit();
-		session.flush();
+//		session.flush();
 	}
 
 	public void changeSchool(String schoolId) {
@@ -70,7 +78,7 @@ public class DatabaseConnector {
 			session.update(s);
 		}
 		transaction.commit();
-		session.flush();
+//		session.flush();
 	}
 
 	public void deleteSchool(String schoolId) {
@@ -82,7 +90,7 @@ public class DatabaseConnector {
 			session.delete(s);
 		}
 		transaction.commit();
-		session.flush();
+//		session.flush();
 	}
 
 	public Iterable<SchoolClass> getSchoolClasses() {
@@ -111,7 +119,7 @@ public class DatabaseConnector {
 			session.save(school);
 		}
 		transaction.commit();
-		session.flush();
+//		session.flush();
 	}
 
 	public void updateSchoolClass(String classId, String oldSchoolId, String trueSchoolId) {
@@ -127,14 +135,15 @@ public class DatabaseConnector {
 //				School oldSchool = getSchoolObjById(oldSchoolId);
 				trueSchool.addClass(s);
 //				oldSchool.removeClass(s);
-				session.update(trueSchool);
+				session.merge(trueSchool);
+//				session.update(trueSchool);
 //				session.update(oldSchool);
 			}
 		}
-		session.flush();
 		transaction.commit();
+		session.flush();
 		session.clear();
-		
+
 	}
 
 	public void deleteSchoolClass(String schoolClassId) {
@@ -146,7 +155,7 @@ public class DatabaseConnector {
 			session.delete(s);
 		}
 		transaction.commit();
-		session.flush();
+//		session.flush();
 	}
 
 	public Iterable<Student> getStudents() {
@@ -155,6 +164,11 @@ public class DatabaseConnector {
 		List students = query.list();
 
 		return students;
+	}
+	
+	public Student getStudentObjById(String studentId) {
+		Student student = (Student) session.get(Student.class, Long.parseLong(studentId));
+		return student;
 	}
 
 	public void addStudent(Student student, String classId) {
@@ -166,11 +180,34 @@ public class DatabaseConnector {
 			session.save(student);
 		} else {
 			SchoolClass schoolClass = results.get(0);
-			schoolClass.addStudent(student);
-			session.save(schoolClass);
+			student.setSchoolClass(schoolClass);
+//			schoolClass.addStudent(student);
+			session.save(student);
 		}
 		transaction.commit();
-		session.flush();
+//		session.flush();
+	}
+	
+	public void updateStudent(String studentId, String oldClassId, String trueClassId) {
+		String hql = "FROM Student S WHERE S.id=" + studentId;
+		Query query = session.createQuery(hql);
+		List<Student> results = query.list();
+		Transaction transaction = session.beginTransaction();
+		for (Student s : results) {
+			if (oldClassId.equals(trueClassId)) {
+				session.update(s);
+			} else {
+				SchoolClass trueClass = getSchoolClassObjById(trueClassId);
+				s.setSchoolClass(trueClass);
+				session.merge(s);
+//				trueClass.addStudent(s);
+//				session.merge(trueClass);
+			}
+		}
+		transaction.commit();
+//		session.flush();
+		session.clear();
+
 	}
 
 	public void deleteStudent(String studentId) {
@@ -182,8 +219,7 @@ public class DatabaseConnector {
 			session.delete(s);
 		}
 		transaction.commit();
-		session.flush();
+//		session.flush();
 	}
-
 
 }

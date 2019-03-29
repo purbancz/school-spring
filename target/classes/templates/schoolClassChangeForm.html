@@ -13,7 +13,6 @@
 						<tr><td>rok rozpoczęcia:</td><td><input type="text" th:value="*{startYear}" id="schoolClassStartYear" name="schoolClassStartYear" /></td></tr>
 						<tr><td>obecny rok:</td><td><input type="text" th:value="*{currentYear}" id="schoolClassCurrentYear" name="schoolClassCurrentYear" /></td></tr>
 						<tr><td>profil:</td><td><input type="text" th:value="*{profile}" id="schoolClassProfile" name="schoolClassProfile" /></td></tr>
-						<tr><td>id szkoły:</td><td><input type="text" th:value="*{school.id}" id="schoolClassSchoolId" name="schoolClassSchoolId" /></td></tr>
 						<tr><td>szkoła:</td><td><select class="form-control" name="trueSchool" id="trueSchool">
 											    <option value="-1" th:value="*{school.id}" th:text="*{school.name} + ', ' + *{school.address}"></option>
 											    <option th:each="school: ${schools}" th:value="${school.id}" th:text="${school.name} + ', ' + ${school.address}"></option>
