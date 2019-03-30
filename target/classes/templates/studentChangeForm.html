@@ -14,8 +14,8 @@
 						<tr><td>Nazwisko:</td><td><input type="text" th:value="*{surname}" id="studentSurname" name="studentSurname" /></td></tr>
 						<tr><td>Pesel:</td><td><input type="text" th:value="*{pesel}" id="studentSurname" name="studentPesel" /></td></tr>
 						<tr><td>klasa:</td><td><select class="form-control" name="trueClass" id="trueClass">
-											    <option value="-1" th:value="*{schoolClass.id}" th:text="*{schoolClass.profile} + ', ' + *{schoolClass.startYear}">---</option>
-											    <option th:each="schoolClass: ${schoolClasses}" th:value="${schoolClass.id}" th:text="${schoolClass.profile} + ', ' + ${schoolClass.startYear}"></option>
+											    <option value="-1" th:value="*{schoolClass.id}" th:text="*{schoolClass.school.name} + ', ' + *{schoolClass.profile} + ', ' + *{schoolClass.startYear}">---</option>
+											    <option th:each="schoolClass: ${schoolClasses}" th:value="${schoolClass.id}" th:text="${schoolClass.school.name} + ', ' + ${schoolClass.profile} + ', ' + ${schoolClass.startYear}"></option>
 											    </select></td></tr>
 					</table><br/><BR/>
 					<input type="submit" value="Zapisz"/>
